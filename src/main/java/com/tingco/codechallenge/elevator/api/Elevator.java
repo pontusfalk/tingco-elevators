@@ -27,6 +27,8 @@ interface Elevator {
      * If the elevator is moving. This is the target floor.
      *
      * @return primitive integer number of floor
+     *
+     * todo: add sentinel value if elevator is not moving?
      */
     int getAddressedFloor();
 
@@ -41,6 +43,8 @@ interface Elevator {
      * Command to move the elevator to the given floor.
      *
      * @param toFloor int where to go.
+     *
+     * todo: error contract?
      */
     void moveElevator(int toFloor);
 
@@ -48,6 +52,11 @@ interface Elevator {
      * Check if the elevator is occupied at the moment.
      *
      * @return true if busy.
+     *
+     * todo:
+     * busy is vague in the elevator business context. Does it mean it's occupied like the javadoc says?
+     * If so, is it not busy when it's begun moving to get the user but not yet picked her up?
+     * How to keep track if it's occupied? What if the user hit a button and then left before the elevator doors shut?
      */
     boolean isBusy();
 
@@ -57,5 +66,4 @@ interface Elevator {
      * @return int actual floor at the moment.
      */
     int currentFloor();
-
 }
