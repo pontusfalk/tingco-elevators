@@ -69,7 +69,10 @@ public class TingcoElevator implements Elevator {
      * as well as keeping direction and the current floor in sync
      */
     void tick() {
-        if (!busy || direction == NONE) {
+        if (!busy) {
+            throw new IllegalElevatorActionException("elevator must be busy before it is allowed to move");
+        }
+        if (direction == NONE) {
             return;
         }
         currentFloor += direction == UP ? 1 : -1;

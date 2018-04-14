@@ -83,6 +83,24 @@ public class TingcoElevatorTest {
         assertThat(elevator.currentFloor()).isEqualTo(elevator.getAddressedFloor());
     }
 
+    @Test
+    public void elevatorNotMovingShouldStayPutAfterTick() {
+        TingcoElevator elevator = busyElevator();
+        elevator.tick();
+
+        assertThat(elevator.currentFloor()).isEqualTo(1);
+        assertThat(elevator.getDirection()).isEqualTo(NONE);
+    }
+
+    @Test
+    public void freeElevatorShouldNotAcceptTick() {
+        TingcoElevator elevator = freeElevator();
+
+        assertThatThrownBy(elevator::tick)
+          .isInstanceOf(IllegalElevatorActionException.class)
+          .hasMessageContaining("must be busy before");
+    }
+
     //fixture builders
 
     private TingcoElevator freeElevator() {
