@@ -4,7 +4,7 @@ class TestFixtureHelper {
     private static int nextId = 0;
 
     static TingcoElevator freeElevator() {
-        return new TingcoElevator(nextId++);
+        return new TingcoElevator(nextId++, 10);
     }
 
     static TingcoElevator busyElevator() {

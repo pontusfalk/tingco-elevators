@@ -60,7 +60,7 @@ public class TingcoElevatorControllerTest {
     @Test
     // given bdd naming standards when writing method names then names become long
     public void givenAnElevatorNotControlledByTheControllerWhenTryingToReleaseTheElevatorThenControllerShouldThrow() {
-        Elevator rogueElevator = new TingcoElevator(1);
+        Elevator rogueElevator = new TingcoElevator(1, 10);
         assertThatThrownBy(() -> singleElevatorController.releaseElevator(rogueElevator))
           .isInstanceOf(IllegalElevatorControllerActionException.class)
           .hasMessageContaining("this shaft");

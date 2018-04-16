@@ -4,13 +4,15 @@ import static com.tingco.codechallenge.elevator.api.Elevator.Direction.*;
 
 public class TingcoElevator implements Elevator {
     private final int id;
+    private final int floors;
     private int currentFloor = 1;
     private int toFloor;
     private Direction direction = NONE;
     private boolean busy;
 
-    TingcoElevator(int id) {
+    TingcoElevator(int id, int floors) {
         this.id = id;
+        this.floors = floors;
     }
 
     @Override
@@ -33,8 +35,8 @@ public class TingcoElevator implements Elevator {
         if (!busy) {
             throw new IllegalElevatorActionException("elevator must be busy before it is allowed to move");
         }
-        if (toFloor < 1) {
-            throw new IllegalElevatorActionException("to floor must be at least 1, is: " + toFloor);
+        if (toFloor < 1 || toFloor > floors) {
+            throw new IllegalElevatorActionException("floor must be between 1 and " + floors + ", is: " + toFloor);
         }
 
         this.toFloor = toFloor;
@@ -77,5 +79,9 @@ public class TingcoElevator implements Elevator {
         }
         currentFloor += direction == UP ? 1 : -1;
         direction = currentFloor == toFloor ? NONE : direction;
+    }
+
+    int getFloors() {
+        return id;
     }
 }

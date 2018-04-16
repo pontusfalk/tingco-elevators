@@ -68,7 +68,7 @@ public class TingcoElevatorController implements ElevatorController {
         //todo: solve by returning a handle that is hiding the actual instance instead?
         //(the fundamental theorem of software engineering)
         tingcoElevator.setBusy(false);
-        TingcoElevator newTingcoElevator = new TingcoElevator(tingcoElevator.getId());
+        TingcoElevator newTingcoElevator = new TingcoElevator(tingcoElevator.getId(), tingcoElevator.getFloors());
         freeElevators.add(newTingcoElevator);
         elevators.set(i, newTingcoElevator);
     }

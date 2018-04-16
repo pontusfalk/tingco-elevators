@@ -47,7 +47,17 @@ public class TingcoElevatorTest {
 
         assertThatThrownBy(() -> elevator.moveElevator(-1))
           .isInstanceOf(IllegalElevatorActionException.class)
-          .hasMessageContaining("floor must be at least");
+          .hasMessageContaining("floor must be between");
+    }
+
+    @Test
+    public void elevatorShouldNotMoveAboveTopFloor() {
+        TingcoElevator elevator = new TingcoElevator(1, 10);
+        elevator.setBusy(true);
+
+        assertThatThrownBy(() -> elevator.moveElevator(11))
+          .isInstanceOf(IllegalElevatorActionException.class)
+          .hasMessageContaining("floor must be between");
     }
 
     @Test
