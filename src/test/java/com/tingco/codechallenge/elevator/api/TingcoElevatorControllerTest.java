@@ -1,10 +1,14 @@
 package com.tingco.codechallenge.elevator.api;
 
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Mockito;
 
 import java.util.List;
 
+import static com.tingco.codechallenge.elevator.api.TestFixtureHelper.elevatorOnFloor;
+import static com.tingco.codechallenge.elevator.api.TestFixtureHelper.freeElevator;
+import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -15,7 +19,7 @@ public class TingcoElevatorControllerTest {
 
     @Before
     public void setup() {
-        singleElevatorController = new TingcoElevatorController(singletonList(new TingcoElevator(1)));
+        singleElevatorController = new TingcoElevatorController(singletonList(freeElevator()));
     }
 
     @Test
@@ -25,9 +29,15 @@ public class TingcoElevatorControllerTest {
     }
 
     @Test
-    public void givenFreeElevatorWhenRequestingAnElevatorThenOneShouldCome() {
-        Elevator elevator = singleElevatorController.requestElevator(1);
-        assertThat(elevator).isNotNull();
+    public void givenFreeElevatorWhenRequestingAnElevatorThenTheClosestFreeElevatorShouldCome() {
+        TingcoElevator firstFloorElevator = elevatorOnFloor(1);
+        firstFloorElevator.setBusy(false);
+        TingcoElevator fourthFloorElevator = elevatorOnFloor(4);
+        fourthFloorElevator.setBusy(false);
+
+        ElevatorController controller = new TingcoElevatorController(asList(firstFloorElevator, fourthFloorElevator));
+        Elevator elevator = controller.requestElevator(3);
+        assertThat(elevator.getId()).isEqualTo(fourthFloorElevator.getId());
     }
 
     @Test

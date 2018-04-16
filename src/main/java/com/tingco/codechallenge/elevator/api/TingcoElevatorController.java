@@ -3,29 +3,40 @@ package com.tingco.codechallenge.elevator.api;
 import java.util.*;
 
 import static com.tingco.codechallenge.elevator.api.Elevator.Direction.NONE;
+import static java.lang.Math.abs;
 
 public class TingcoElevatorController implements ElevatorController {
     // todo: Set<>?
     private final List<TingcoElevator> elevators;
+    private final List<TingcoElevator> freeElevators;
 
     TingcoElevatorController(List<TingcoElevator> elevators) {
         if (elevators == null || elevators.isEmpty()) {
             throw new IllegalElevatorControllerActionException("controller must control at least 1 elevator");
         }
         this.elevators = new ArrayList<>(elevators);
+        this.freeElevators = new ArrayList<>(elevators);
     }
 
     @Override
     public Elevator requestElevator(int toFloor) {
-        TingcoElevator freeElevator = elevators.stream()
-                                               .filter(elevator -> !elevator.isBusy())
-                                               .findFirst().orElse(null);
-        if (freeElevator != null) {
-            freeElevator.setBusy(true);
-            freeElevator.moveElevator(toFloor);
+        if (freeElevators.isEmpty()) {
+            return null;
         }
 
-        return freeElevator;
+        TingcoElevator closest = freeElevators.get(0);
+        for (TingcoElevator elevator : freeElevators) {
+            //todo: break if diff = 0
+            closest = abs(closest.currentFloor() - toFloor) < abs(elevator.currentFloor() - toFloor)
+                      ? closest : elevator;
+        }
+
+        freeElevators.remove(closest);
+
+        closest.setBusy(true);
+        closest.moveElevator(toFloor);
+
+        return closest;
     }
 
     @Override
@@ -49,14 +60,16 @@ public class TingcoElevatorController implements ElevatorController {
             throw new IllegalElevatorControllerActionException("that elevator is not in this shaft");
         }
 
-        if(tingcoElevator.getDirection() != NONE) {
+        if (tingcoElevator.getDirection() != NONE) {
             throw new IllegalElevatorControllerActionException("the elevator must not be moving when released");
         }
 
-        //re-creating the elevator to avoid accidental re-use of an elevator instance already released
+        //re-creating the elevator to avoid accidental re-use of an already released elevator instance
         //todo: solve by returning a handle that is hiding the actual instance instead?
         //(the fundamental theorem of software engineering)
-        elevators.set(i, new TingcoElevator(tingcoElevator.getId()));
         tingcoElevator.setBusy(false);
+        TingcoElevator newTingcoElevator = new TingcoElevator(tingcoElevator.getId());
+        freeElevators.add(newTingcoElevator);
+        elevators.set(i, newTingcoElevator);
     }
 }
