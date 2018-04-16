@@ -3,6 +3,7 @@ package com.tingco.codechallenge.elevator.api;
 import org.junit.Test;
 
 import static com.tingco.codechallenge.elevator.api.Elevator.Direction.*;
+import static com.tingco.codechallenge.elevator.api.TestFixtureHelper.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -99,33 +100,5 @@ public class TingcoElevatorTest {
         assertThatThrownBy(elevator::tick)
           .isInstanceOf(IllegalElevatorActionException.class)
           .hasMessageContaining("must be busy before");
-    }
-
-    //fixture builders
-
-    private TingcoElevator freeElevator() {
-        return new TingcoElevator(1);
-    }
-
-    private TingcoElevator elevatorMovingToFloor(int floor) {
-        TingcoElevator elevator = busyElevator();
-        elevator.moveElevator(floor);
-        return elevator;
-    }
-
-    private TingcoElevator elevatorOnFloor(int floor) {
-        TingcoElevator elevator = elevatorMovingToFloor(floor);
-
-        for (int i = elevator.currentFloor(); i < floor; i++) {
-            elevator.tick();
-        }
-
-        return elevator;
-    }
-
-    private TingcoElevator busyElevator() {
-        TingcoElevator elevator = new TingcoElevator(1);
-        elevator.setBusy(true);
-        return elevator;
     }
 }
