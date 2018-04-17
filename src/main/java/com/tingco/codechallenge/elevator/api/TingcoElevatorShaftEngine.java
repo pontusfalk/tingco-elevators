@@ -17,6 +17,10 @@ class TingcoElevatorShaftEngine {
     }
 
     void startElevator(TingcoElevator elevator) {
+        if (runningElevators.containsKey(elevator.getId())) {
+            throw new IllegalElevatorActionException("that elevator is already running");
+        }
+
         ScheduledFuture elevatorRunner = service.scheduleAtFixedRate(elevator::tick, 0, speed, MILLISECONDS);
         runningElevators.put(elevator.getId(), elevatorRunner);
     }

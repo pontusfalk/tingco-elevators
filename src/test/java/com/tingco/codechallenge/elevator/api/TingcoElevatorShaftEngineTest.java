@@ -50,4 +50,13 @@ public class TingcoElevatorShaftEngineTest {
           .isInstanceOf(IllegalElevatorActionException.class)
           .hasMessageContaining("not running");
     }
+
+    @Test
+    public void startingElevatorTwiceWillThrow() {
+        engine.startElevator(elevator);
+
+        assertThatThrownBy(() -> engine.startElevator(elevator))
+          .isInstanceOf(IllegalElevatorActionException.class)
+          .hasMessageContaining("already running");
+    }
 }
