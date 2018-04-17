@@ -9,13 +9,16 @@ public class TingcoElevatorController implements ElevatorController {
     // todo: Set<>?
     private final List<TingcoElevator> elevators;
     private final List<TingcoElevator> freeElevators;
+    private final TingcoElevatorShaftEngine engine;
 
-    public TingcoElevatorController(List<TingcoElevator> elevators) {
+    public TingcoElevatorController(TingcoElevatorShaftEngine engine, List<TingcoElevator> elevators) {
         if (elevators == null || elevators.isEmpty()) {
             throw new IllegalElevatorControllerActionException("controller must control at least 1 elevator");
         }
         this.elevators = new ArrayList<>(elevators);
         this.freeElevators = new ArrayList<>(elevators);
+
+        this.engine = engine;
     }
 
     @Override
@@ -35,6 +38,7 @@ public class TingcoElevatorController implements ElevatorController {
 
         closest.setBusy(true);
         closest.moveElevator(toFloor);
+        engine.startElevator(closest);
 
         return closest;
     }
@@ -68,6 +72,7 @@ public class TingcoElevatorController implements ElevatorController {
         //todo: solve by returning a handle that is hiding the actual instance instead?
         //(the fundamental theorem of software engineering)
         tingcoElevator.setBusy(false);
+        engine.stopElevator(tingcoElevator);
         TingcoElevator newTingcoElevator = new TingcoElevator(tingcoElevator.getId(), tingcoElevator.getFloors());
         freeElevators.add(newTingcoElevator);
         elevators.set(i, newTingcoElevator);

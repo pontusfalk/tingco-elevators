@@ -6,12 +6,12 @@ import java.util.concurrent.*;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
-class TingcoElevatorShaftEngine {
+public class TingcoElevatorShaftEngine {
     private final ScheduledExecutorService service;
     private final int speed;
     private final Map<Integer, Future> runningElevators = new HashMap<>();
 
-    TingcoElevatorShaftEngine(ScheduledExecutorService service, int speed) {
+    public TingcoElevatorShaftEngine(ScheduledExecutorService service, int speed) {
         this.speed = speed;
         this.service = service;
     }

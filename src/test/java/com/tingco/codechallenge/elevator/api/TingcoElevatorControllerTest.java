@@ -2,7 +2,6 @@ package com.tingco.codechallenge.elevator.api;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import java.util.List;
 
@@ -13,18 +12,20 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.mock;
 
 public class TingcoElevatorControllerTest {
     private ElevatorController singleElevatorController;
+    private TingcoElevatorShaftEngine engine = mock(TingcoElevatorShaftEngine.class);
 
     @Before
     public void setup() {
-        singleElevatorController = new TingcoElevatorController(singletonList(freeElevator()));
+        singleElevatorController = new TingcoElevatorController(engine, singletonList(freeElevator()));
     }
 
     @Test
     public void givenZeroElevatorsWhenCreatingTheControllerThenItShouldThrow() {
-        assertThatThrownBy(() -> new TingcoElevatorController(emptyList()))
+        assertThatThrownBy(() -> new TingcoElevatorController(engine, emptyList()))
           .isInstanceOf(IllegalElevatorControllerActionException.class);
     }
 
@@ -35,8 +36,10 @@ public class TingcoElevatorControllerTest {
         TingcoElevator fourthFloorElevator = elevatorOnFloor(4);
         fourthFloorElevator.setBusy(false);
 
-        ElevatorController controller = new TingcoElevatorController(asList(firstFloorElevator, fourthFloorElevator));
-        Elevator elevator = controller.requestElevator(3);
+        ElevatorController elevatorController =
+          new TingcoElevatorController(engine, asList(firstFloorElevator, fourthFloorElevator));
+        Elevator elevator = elevatorController.requestElevator(3);
+
         assertThat(elevator.getId()).isEqualTo(fourthFloorElevator.getId());
     }
 
@@ -68,7 +71,8 @@ public class TingcoElevatorControllerTest {
 
     @Test
     public void givenANonTingcoElevatorWhenTryingToReleaseItThenTheControllerShouldThrow() {
-        Elevator counterfeitElevator = Mockito.mock(Elevator.class);
+        Elevator counterfeitElevator = mock(Elevator.class);
+
         assertThatThrownBy(() -> singleElevatorController.releaseElevator(counterfeitElevator))
           .isInstanceOf(IllegalElevatorControllerActionException.class)
           .hasMessageContaining("not a Genuine Tingco Elevator™");
@@ -97,6 +101,7 @@ public class TingcoElevatorControllerTest {
     @Test
     public void givenControllersElevatorListWhenTryingToChangeItThenItShouldThrow() {
         List<Elevator> elevatorsShouldBeUnmodifiable = singleElevatorController.getElevators();
+
         assertThatThrownBy(elevatorsShouldBeUnmodifiable::clear)
           .isInstanceOf(UnsupportedOperationException.class);
     }

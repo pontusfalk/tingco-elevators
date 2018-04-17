@@ -8,25 +8,29 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 @Configuration
 public class ElevatorBeanSupplier {
     @Bean(destroyMethod = "shutdown")
-    public ExecutorService taskExecutor(ElevatorConfig config) {
+    public ScheduledExecutorService taskExecutor(ElevatorConfig config) {
         return Executors.newScheduledThreadPool(config.getNumberOfElevators());
     }
 
     @Bean
-    public ElevatorController elevatorController(ElevatorConfig config) {
+    public TingcoElevatorShaftEngine elevatorShaftEngine(ScheduledExecutorService service, ElevatorConfig config) {
+        return new TingcoElevatorShaftEngine(service, config.getSpeed());
+    }
+
+    @Bean
+    public ElevatorController elevatorController(TingcoElevatorShaftEngine engine, ElevatorConfig config) {
         List<TingcoElevator> elevators = new ArrayList<>(config.getNumberOfElevators());
 
         for (int i = 0; i < config.getNumberOfElevators(); i++) {
             elevators.add(new TingcoElevator(i, config.getNumberOfFloors()));
         }
 
-        return new TingcoElevatorController(elevators);
+        return new TingcoElevatorController(engine, elevators);
     }
 
     @Bean
