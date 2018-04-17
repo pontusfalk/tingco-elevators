@@ -1,54 +1,38 @@
-# Elevator Coding Challenge
+# Elevator Coding Challenge  
 
-Create an elevator controller!
+The two interfaces `Elevator` and `ElevatorController` have been implemented for a Tingco-based elevator shaft.
 
-This is a skeleton project with two interfaces that you must implement.
+#### Configure Tingco elevators  
+`application.properties` has a few configuration settings: the number of floors and elevators as well as their speed.
 
-You are going to create an Elevator Controller and a number of Elevators that will be managed by the controller. There are a few extra classes already added to the project to get you up and running quickly.
+#### Test Tingco elevators  
+Safety first! Run `mvn test` to verify that the elevators are working as expected. 
+Feel free to have a look at the tests as they serve as documentation for what features are implemented.
 
-## To Do
+#### Run and play with Tingco elevators  
+Start the app with `mvn spring-boot:run`  
+There are a few endpoints to control the elevators:  
 
-There are two interfaces to implement.
+`/api/elevators/config GET` to get the number of elevators and floors used in this elevator shaft, as well as their speed.  
+`/api/elevators GET` to get a list of all elevators and their info.  
+`/api/elevators/floors/{floor number} POST` with an empty body to request an elevator to the floor number.  
+`/api/elevators/{elevator id} PUT` with a body specifying the floor to move an elevator to a new floor.  
+`/api/elevators/{elevator id} DELETE` to release the elevator with the given id.  
 
- * `Elevator` - this is the elevator itself and has a few public methods to take care of. There can be n number of elevators at the same time
+Some examples using `curl`:  
+```
+curl -v "http://localhost:8080/api/elevators/config"
+curl -v "http://localhost:8080/api/elevators"
+curl -v "http://localhost:8080/api/elevators/floors/4" -X POST --data ""
+curl -v "http://localhost:8080/api/elevators/3" -H "Content-Type: application/json" -X PUT  --data '{"addressedFloor": 1}'
+curl -v "http://localhost:8080/api/elevators/3" -X DELETE
+```
 
- * `ElevatorController` - this is the elevator manager that keeps track of all the elevators running in the elevator shaft. There should be only one ElevatorController
+Read the log messages written to stdout to verify the elevators are behaving like expected.
 
-### Bonus Classes
-
-There are a few classes added to get you faster up and running. It is not mandatory to use these classes in your solution but you can use them to cut time in boiler plate coding.
-
- * `ElevatorControllerEndPoints` for REST features. If you would like to use them in a test or to support a GUI here is already a basic skeleton class for you
-
- * `ElevatorApplication` class for starting the Spring container and there are a few beans you can use as well
-
- * There are two test classes added to get you up and running faster with tests and simulations
-
-## What We Expect
-
-Implement the elevator system and make it as real as possible when it comes to the logic. Which elevator is best suited for a waiting floor, more requests than available elevators and so on.
-
-Write a test or a simulation that runs the system with a number of floors and elevators. The numbers should be flexible and the system must work with one to many elevators.
-
-Document how we start, simulate and monitor your solution. If there is a GUI or logging for monitoring does not matter as long as you describe how it is supposed to be done.
-
-Have fun! This is not a trap. It is a code challenge to check coding style etc. If there are features you don't have time to add or if you have future changes in mind, write comments or document them.
-
-### Deliver Your Solution
-
-Add the code to a github or bitbucket repository. You can also make an archive of the project and e-mail it to us. We would like to see your solution within 7 days.
- 
-## Build And Run (as is)
-
-As the project is, the Spring app can be started as seen below.
-
-build and run the code with Maven
-
-    mvn package
-    mvn spring-boot:run
-
-or start the target JAR file 
-
-    mvn package
-    java -jar target/elevator-1.0-SNAPSHOT.jar
-
+#### Todos and what's next  
+Life as an elevator builder never ends. I have sprinkled my code with some todos with my thoughts on what would be
+good to have a look at in the future.  
+I had begun to work on a React frontend using Spring's websockets support for a more appealing user experience.
+However, time got in the way and so I went with the safe option: REST and logging.  
+Another thought was to put in a SQLite and use Spring Data to persist the elevator state between runs.   
