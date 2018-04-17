@@ -6,16 +6,6 @@ package com.tingco.codechallenge.elevator.api;
  * @author Sven Wesley
  */
 public interface Elevator {
-
-    /**
-     * Enumeration for describing elevator's direction.
-     */
-    enum Direction {
-        UP,
-        DOWN,
-        NONE
-    }
-
     /**
      * Tells which direction is the elevator going in.
      *
@@ -66,4 +56,21 @@ public interface Elevator {
      * @return int actual floor at the moment.
      */
     int currentFloor();
+
+    enum Direction {
+        UP("up"),
+        DOWN("down"),
+        NONE("still");
+
+        private final String direction;
+
+        Direction(String direction) {
+            this.direction = direction;
+        }
+
+        @Override
+        public String toString() {
+            return direction;
+        }
+    }
 }

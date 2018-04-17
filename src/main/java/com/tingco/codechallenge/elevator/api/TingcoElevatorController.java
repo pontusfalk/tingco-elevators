@@ -1,11 +1,16 @@
 package com.tingco.codechallenge.elevator.api;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.*;
 
 import static com.tingco.codechallenge.elevator.api.Elevator.Direction.NONE;
 import static java.lang.Math.abs;
 
 public class TingcoElevatorController implements ElevatorController {
+    private static final Logger logger = LoggerFactory.getLogger(TingcoElevatorController.class);
+
     // todo: Set<>?
     private final List<TingcoElevator> elevators;
     private final List<TingcoElevator> freeElevators;
@@ -33,6 +38,8 @@ public class TingcoElevatorController implements ElevatorController {
             closest = abs(closest.currentFloor() - toFloor) < abs(elevator.currentFloor() - toFloor)
                       ? closest : elevator;
         }
+
+        logger.debug("elevator {} is requested to floor {}", closest.getId(), toFloor);
 
         freeElevators.remove(closest);
 
@@ -67,6 +74,8 @@ public class TingcoElevatorController implements ElevatorController {
         if (tingcoElevator.getDirection() != NONE) {
             throw new IllegalElevatorControllerActionException("the elevator must not be moving when released");
         }
+
+        logger.debug("elevator {} is released on floor {}", elevator.getId(), elevator.currentFloor());
 
         //re-creating the elevator to avoid accidental re-use of an already released elevator instance
         //todo: solve by returning a handle that is hiding the actual instance instead?
