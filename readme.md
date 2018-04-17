@@ -1,6 +1,9 @@
 # Elevator Coding Challenge  
 
 The two interfaces `Elevator` and `ElevatorController` have been implemented for a Tingco-based elevator shaft.
+They can be found in `com.tingco.codechallenge.elevator.api.tingco` together with a shaft engine to keep the wheels turning.  
+The engine uses a speed variable, configured as described below, to determine how long a tick is.  
+Each tick a busy elevator decides what action to take, if any.
 
 #### Configure Tingco elevators  
 `application.properties` has a few configuration settings: the number of floors and elevators as well as their speed.
