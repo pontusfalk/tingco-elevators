@@ -3,7 +3,6 @@ package com.tingco.codechallenge.elevator;
 import com.google.common.eventbus.AsyncEventBus;
 import com.google.common.eventbus.EventBus;
 import com.tingco.codechallenge.elevator.api.*;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -15,17 +14,16 @@ import java.util.concurrent.Executors;
 @Configuration
 public class ElevatorBeanSupplier {
     @Bean(destroyMethod = "shutdown")
-    public ExecutorService taskExecutor(@Value("${com.tingco.elevator.numberofelevators:4}") int numberOfElevators) {
-        return Executors.newScheduledThreadPool(numberOfElevators);
+    public ExecutorService taskExecutor(ElevatorConfig config) {
+        return Executors.newScheduledThreadPool(config.getNumberOfElevators());
     }
 
     @Bean
-    public ElevatorController elevatorController(@Value("${com.tingco.elevator.numberoffloors:5}") int numberOfFloors,
-                                                 @Value("${com.tingco.elevator.numberofelevators:4}") int numberOfElevators) {
-        List<TingcoElevator> elevators = new ArrayList<>(numberOfElevators);
+    public ElevatorController elevatorController(ElevatorConfig config) {
+        List<TingcoElevator> elevators = new ArrayList<>(config.getNumberOfElevators());
 
-        for (int i = 0; i < numberOfElevators; i++) {
-            elevators.add(new TingcoElevator(i, numberOfFloors));
+        for (int i = 0; i < config.getNumberOfElevators(); i++) {
+            elevators.add(new TingcoElevator(i, config.getNumberOfFloors()));
         }
 
         return new TingcoElevatorController(elevators);
