@@ -1,4 +1,4 @@
-package com.tingco.codechallenge.elevator.api;
+package com.tingco.codechallenge.elevator.api.tingco;
 
 import org.springframework.web.bind.annotation.ResponseStatus;
 

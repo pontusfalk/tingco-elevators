@@ -1,5 +1,7 @@
-package com.tingco.codechallenge.elevator.api;
+package com.tingco.codechallenge.elevator.api.tingco;
 
+import com.tingco.codechallenge.elevator.api.Elevator;
+import com.tingco.codechallenge.elevator.api.ElevatorController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

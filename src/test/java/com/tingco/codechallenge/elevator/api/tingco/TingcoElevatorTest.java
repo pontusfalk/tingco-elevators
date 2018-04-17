@@ -1,9 +1,9 @@
-package com.tingco.codechallenge.elevator.api;
+package com.tingco.codechallenge.elevator.api.tingco;
 
 import org.junit.Test;
 
 import static com.tingco.codechallenge.elevator.api.Elevator.Direction.*;
-import static com.tingco.codechallenge.elevator.api.TestFixtureHelper.*;
+import static com.tingco.codechallenge.elevator.api.tingco.TestFixtureHelper.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 

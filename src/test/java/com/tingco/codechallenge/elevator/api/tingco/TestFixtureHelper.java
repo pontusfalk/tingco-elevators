@@ -1,4 +1,4 @@
-package com.tingco.codechallenge.elevator.api;
+package com.tingco.codechallenge.elevator.api.tingco;
 
 class TestFixtureHelper {
     private static int nextId = 0;

@@ -1,12 +1,14 @@
-package com.tingco.codechallenge.elevator.api;
+package com.tingco.codechallenge.elevator.api.tingco;
 
+import com.tingco.codechallenge.elevator.api.Elevator;
+import com.tingco.codechallenge.elevator.api.ElevatorController;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
 
-import static com.tingco.codechallenge.elevator.api.TestFixtureHelper.elevatorOnFloor;
-import static com.tingco.codechallenge.elevator.api.TestFixtureHelper.freeElevator;
+import static com.tingco.codechallenge.elevator.api.tingco.TestFixtureHelper.elevatorOnFloor;
+import static com.tingco.codechallenge.elevator.api.tingco.TestFixtureHelper.freeElevator;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;

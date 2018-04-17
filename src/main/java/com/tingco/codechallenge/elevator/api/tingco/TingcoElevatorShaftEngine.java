@@ -1,4 +1,4 @@
-package com.tingco.codechallenge.elevator.api;
+package com.tingco.codechallenge.elevator.api.tingco;
 
 import java.util.HashMap;
 import java.util.Map;

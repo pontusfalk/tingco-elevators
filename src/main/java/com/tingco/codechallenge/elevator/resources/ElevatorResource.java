@@ -2,6 +2,7 @@ package com.tingco.codechallenge.elevator.resources;
 
 import com.tingco.codechallenge.elevator.ElevatorConfig;
 import com.tingco.codechallenge.elevator.api.*;
+import com.tingco.codechallenge.elevator.api.tingco.IllegalElevatorControllerActionException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
