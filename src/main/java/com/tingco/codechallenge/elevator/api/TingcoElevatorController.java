@@ -10,7 +10,7 @@ public class TingcoElevatorController implements ElevatorController {
     private final List<TingcoElevator> elevators;
     private final List<TingcoElevator> freeElevators;
 
-    TingcoElevatorController(List<TingcoElevator> elevators) {
+    public TingcoElevatorController(List<TingcoElevator> elevators) {
         if (elevators == null || elevators.isEmpty()) {
             throw new IllegalElevatorControllerActionException("controller must control at least 1 elevator");
         }

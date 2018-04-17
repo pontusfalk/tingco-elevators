@@ -10,7 +10,7 @@ public class TingcoElevator implements Elevator {
     private Direction direction = NONE;
     private boolean busy;
 
-    TingcoElevator(int id, int floors) {
+    public TingcoElevator(int id, int floors) {
         this.id = id;
         this.floors = floors;
     }
